@@ -26,38 +26,35 @@ def set_range():
         attempts = 0
         def ask_guess():
             nonlocal attempts
-            user_input = input('コンピュータが選んだ数は何でしょう？：')
+            while True:
+                user_input = input('コンピュータが選んだ数は何でしょう？：')
 
-            try:
-                guess = int(user_input.strip())
-            except ValueError:
-                print('入力が間違っています。整数を入力してください。\n')
-                ask_guess()
-                return
-            
-            if guess < small:
-                print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より小さい数です。入力しなおしてください。\n')
-                ask_guess()
+                try:
+                    guess = int(user_input.strip())
+                except ValueError:
+                    print('入力が間違っています。整数を入力してください。\n')
+                    continue
+                
+                if guess < small:
+                    print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より小さい数です。入力しなおしてください。\n')
 
-            elif guess > large:
-                print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より大きい数です。入力しなおしてください。\n')
-                ask_guess()
+                elif guess > large:
+                    print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より大きい数です。入力しなおしてください。\n')
 
-            elif guess < target:
-                attempts += 1
-                print('残念！もっと　▲大きい数▲　です。\n')
-                ask_guess()
-            
-            elif guess > target:
-                attempts += 1
-                print('残念！もっと　▼小さい数▼　です。\n')
-                ask_guess()
+                elif guess < target:
+                    attempts += 1
+                    print('残念！もっと　▲大きい数▲　です。\n')
+                
+                elif guess > target:
+                    attempts += 1
+                    print('残念！もっと　▼小さい数▼　です。\n')
 
-            elif guess == target:
-                attempts += 1
-                print('正解です！おめでとう！＼(^o^)／\n')
-                print('正解までの試行数は ' + str(attempts) + ' 回でした。\n')
-                print(get_score(range_values, attempts))
+                elif guess == target:
+                    attempts += 1
+                    print('正解です！おめでとう！＼(^o^)／\n')
+                    print('正解までの試行数は ' + str(attempts) + ' 回でした。\n')
+                    print(get_score(range_values, attempts))
+                    break
 
         ask_guess()
 
