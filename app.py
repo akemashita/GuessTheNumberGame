@@ -21,7 +21,9 @@ def set_range():
         target = random.randint(range_values[0], range_values[1])
         print('コンピュータが選んだ数は ' + str(target) + ' です。')
 
+        attempts = 0
         def ask_guess():
+            nonlocal attempts
             user_input = input('コンピュータが選んだ数は何でしょう？：')
 
             try:
@@ -32,15 +34,19 @@ def set_range():
                 return
             
             if guess < target:
+                attempts += 1
                 print('残念！もっと　▲大きい数▲　です。\n')
                 ask_guess()
             
             elif guess > target:
+                attempts += 1
                 print('残念！もっと　▼小さい数▼　です。\n')
                 ask_guess()
 
             elif guess == target:
+                attempts += 1
                 print('正解です！おめでとう！＼(^o^)／\n')
+                print('正解までの試行数は ' + str(attempts) + ' 回でした。\n')
 
         ask_guess()
 
