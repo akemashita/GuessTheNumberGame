@@ -17,6 +17,7 @@ def set_range():
         set_range()
         return
 
+    small, large = range_values
     if len(range_values) == 2:
         print('あなたが設定した範囲は ' + str(range_values[0]) + ' 〜 ' + str(range_values[1]) + ' です。\n')
         target = random.randint(range_values[0], range_values[1])
@@ -34,7 +35,15 @@ def set_range():
                 ask_guess()
                 return
             
-            if guess < target:
+            if guess < small:
+                print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より小さい数です。入力しなおしてください。\n')
+                ask_guess()
+
+            elif guess > large:
+                print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より大きい数です。入力しなおしてください。\n')
+                ask_guess()
+
+            elif guess < target:
                 attempts += 1
                 print('残念！もっと　▲大きい数▲　です。\n')
                 ask_guess()
