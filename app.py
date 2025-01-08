@@ -21,23 +21,28 @@ def set_range():
         target = random.randint(range_values[0], range_values[1])
         print('コンピュータが選んだ数は ' + str(target) + ' です。')
 
-        user_input = input('コンピュータが選んだ数は何でしょう？：')
+        def ask_guess():
+            user_input = input('コンピュータが選んだ数は何でしょう？：')
 
-        try:
-            guess = int(user_input.strip())
-        except ValueError:
-            print('入力が間違っています。整数を入力してください。\n')
-            return
-        
-        if guess < target:
-            print('残念！もっと　▲大きい数▲　です。\n')
-        
-        elif guess > target:
-            print('残念！もっと　▼小さい数▼　です。\n')
+            try:
+                guess = int(user_input.strip())
+            except ValueError:
+                print('入力が間違っています。整数を入力してください。\n')
+                ask_guess()
+                return
+            
+            if guess < target:
+                print('残念！もっと　▲大きい数▲　です。\n')
+                ask_guess()
+            
+            elif guess > target:
+                print('残念！もっと　▼小さい数▼　です。\n')
+                ask_guess()
 
-        elif guess == target:
-            print('正解です！おめでとう！＼(^o^)／\n')
+            elif guess == target:
+                print('正解です！おめでとう！＼(^o^)／\n')
 
+        ask_guess()
 
     else:
         print('入力が間違っています。整数を２つ入力してください。\n')
