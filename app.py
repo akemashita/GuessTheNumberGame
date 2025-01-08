@@ -49,7 +49,4 @@ def set_range():
         set_range()
 
 
-
-
-
 set_range()
