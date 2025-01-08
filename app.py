@@ -1,5 +1,6 @@
 import sys
 import random
+import math
 
 print('----------------------------------------')
 print('| Guess The Number Game - 数当てゲーム |')
@@ -47,12 +48,35 @@ def set_range():
                 attempts += 1
                 print('正解です！おめでとう！＼(^o^)／\n')
                 print('正解までの試行数は ' + str(attempts) + ' 回でした。\n')
+                print(get_score(range_values, attempts))
 
         ask_guess()
 
     else:
         print('入力が間違っています。整数を２つ入力してください。\n')
         set_range()
+
+def get_score(range, attempts):
+    if attempts == 0:
+        raise ValueError('試行数は１以上の整数としてください。\n')
+
+    number_of_elements = range[1] - range[0] + 1
+    ideal_attempts = math.ceil(math.log(number_of_elements))
+    print(f'要素数：{number_of_elements}, 理想的な試行数：{ideal_attempts}')
+    
+    leverage = 100;
+    if number_of_elements >= 1000:
+        leverage = 10000
+    elif number_of_elements >= 100:
+        leverage = 5000
+    elif number_of_elements >= 50:
+        leverage = 2500
+    print(f'倍率：{leverage}')
+
+    score = (ideal_attempts / attempts) * leverage
+    print(f'スコア：{score}')
+
+    return int(score)
 
 
 set_range()
