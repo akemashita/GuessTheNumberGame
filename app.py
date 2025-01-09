@@ -171,8 +171,8 @@ if __name__ == '__main__':
                     set_range()
                     continue
 
-                small, large = range_values
                 if len(range_values) == 2:
+                    small, large = range_values
                     print('あなたが設定した範囲は ' + str(range_values[0]) + ' 〜 ' + str(range_values[1]) + ' です。\n')
                     target = random.randint(range_values[0], range_values[1])
                     if debugmode:
