@@ -2,6 +2,8 @@ import sys
 import random
 import math
 
+debugmode = False
+
 if __name__ == '__main__':
     try:
         top5 = [
@@ -30,9 +32,14 @@ if __name__ == '__main__':
         def initialize_game():
             user_input = input('遊び方の説明を見ますか？[y/N]：')
 
-            if user_input.upper() == 'Y':
+            if user_input.lower() == 'debugmode':
+                global debugmode
+                debugmode = True
+                print('[DEBUG] Debugmode enabled!')
+
+            elif user_input.upper() == 'Y':
                 print('★遊び方：')
-                print('あなたが設定する２つの整数の間にあるかずから、')
+                print('あなたが設定する２つの整数の間にある数から、')
                 print('コンピュータがランダムに１つを選びます。')
                 print('コンピュータが選んだ数を当てられたら、あなたの勝ちです。')
                 print('')
@@ -54,7 +61,8 @@ if __name__ == '__main__':
             number_of_elements = range[1] - range[0] + 1
             ideal_attempts = math.ceil(math.log(number_of_elements, 2))
             ideal_attempts = 1 if ideal_attempts == 0 else ideal_attempts  # 要素数１の場合は、理想の試行数が０となるので１に変更する
-            print(f'要素数：{number_of_elements}, 理想的な試行数：{ideal_attempts}')
+            if debugmode:
+                print(f'[DEBUG] number_of_elements: {number_of_elements}, ideal_attempts: {ideal_attempts}')
 
             leverage = 100;
             if number_of_elements >= 1000:
@@ -63,10 +71,13 @@ if __name__ == '__main__':
                 leverage = 5000
             elif number_of_elements >= 50:
                 leverage = 2500
-            print(f'倍率：{leverage}')
+            
+            if debugmode:
+                print(f'[DEBUG] leverage: {leverage}')
 
-            score = (ideal_attempts / attempts) * leverage
-            print(f'スコア：{score}')
+            score = (ideal_attempts / attempts) * leverage            
+            if debugmode:
+                print(f'[DEBUG] score: {score}')
 
             return int(score)
 
@@ -82,18 +93,21 @@ if __name__ == '__main__':
         
         def set_ranking(range, attempts, score, player_name):
             top5.append([range, attempts, score, player_name])
-            print('[DEBUG] unsorted top5 + 1')
-            print(top5)
+            if debugmode:
+                print('\n[DEBUG] unsorted top5 + 1')
+                print(top5)
 
             top5.sort(key=lambda x: x[2], reverse=True)
-            print('[DEBUG] sorted top5 + 1')
-            print(top5)
+            if debugmode:
+                print('\n[DEBUG] sorted top5 + 1')
+                print(top5)
 
             top5[:] = top5[:5]
-            print('ランキングへの登録が完了しました。')
+            print('ランキングへの登録が完了しました。\n')
 
-            print('[DEBUG] After limiting top5')
-            print(top5)
+            if debugmode:
+                print('\n[DEBUG] After limiting top5')
+                print(top5)
 
             show_ranking()
             confirm_retry()
@@ -125,7 +139,8 @@ if __name__ == '__main__':
                 if len(range_values) == 2:
                     print('あなたが設定した範囲は ' + str(range_values[0]) + ' 〜 ' + str(range_values[1]) + ' です。\n')
                     target = random.randint(range_values[0], range_values[1])
-                    print('コンピュータが選んだ数は ' + str(target) + ' です。')
+                    if debugmode:
+                        print('[DEBUG] The computer chose: ' + str(target))
 
                     attempts = 0
                     def ask_guess():
@@ -164,7 +179,6 @@ if __name__ == '__main__':
                                 if chceck_top5(range_values, attempts, current_score):
                                     print('おめでとう！TOP5に入りました！')
                                     player_name = set_player_name()
-                                    print(player_name)
                                     set_ranking(range_values, attempts, current_score, player_name)
                                 
                                 confirm_retry()
