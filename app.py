@@ -48,7 +48,7 @@ if __name__ == '__main__':
         def validate_load_data(data):
             data_sorted = sorted(data, key=lambda x: (-x[2], x[1]))
             for idx, (range, attempts, score, user_name) in enumerate(data_sorted[:5]):
-                print(f'{(idx + 1):>4}　{score:>6}　{user_name:<10}　{attempts:>10}　{(range[1] - range[0] + 1):>6} ({range[0]} 〜 {range[1]})')
+                f'{(idx + 1):>4}　{score:>6}　{user_name:<10}　{attempts:>10}　{(range[1] - range[0] + 1):>6} ({range[0]} 〜 {range[1]})'
 
 
         def show_ranking():
