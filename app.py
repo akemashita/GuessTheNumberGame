@@ -1,6 +1,7 @@
 import sys
 import random
 import math
+import json
 
 debugmode = False
 
@@ -13,6 +14,12 @@ if __name__ == '__main__':
             [[2, 10], 4, 100, 'No Name 4'],
             [[3, 3], 1, 0, 'No Name 5'],
         ]
+
+        def save_top5():
+            with open('top5.json', 'w') as file:
+                json.dump(top5, file)
+                if debugmode:
+                    print('[DEBUG] Top5 data has been saved as file.')
 
         def show_title():
             print('----------------------------------------')
@@ -119,6 +126,7 @@ if __name__ == '__main__':
                 set_range()
 
             else:
+                save_top5()
                 print('遊んでくれてありがとう(*\'ω\'*)また遊んでね！')
                 exit(0)
 
@@ -198,4 +206,5 @@ if __name__ == '__main__':
         set_range()
     
     except KeyboardInterrupt:
+        save_top5()
         print('\nゲームを中断しました。また遊んでね！')
