@@ -60,6 +60,24 @@ if __name__ == '__main__':
         def set_player_name():
             user_input = input('ランキングに載せる名前を入力してください。')
             return user_input.strip() or 'No Name'
+        
+        def set_ranking(range, attempts, score, player_name):
+            top5.append([range, attempts, score, player_name])
+            print('[DEBUG] unsorted top5 + 1')
+            print(top5)
+
+            top5.sort(key=lambda x: x[2], reverse=True)
+            print('[DEBUG] sorted top5 + 1')
+            print(top5)
+
+            top5[:] = top5[:5]
+            print('ランキングへの登録が完了しました。')
+
+            print('[DEBUG] After limiting top5')
+            print(top5)
+
+            show_ranking()
+
 
         def set_range():
             user_input = input('整数を２つ入力してください（例：2, 10）：')
@@ -116,6 +134,7 @@ if __name__ == '__main__':
                                 print('おめでとう！TOP5に入りました！')
                                 player_name = set_player_name()
                                 print(player_name)
+                                set_ranking(range_values, attempts, current_score, player_name)
 
                             break
 
