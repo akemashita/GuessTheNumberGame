@@ -27,6 +27,26 @@ if __name__ == '__main__':
                 print(f'{(idx + 1):>4}　{score:>6}　{user_name:<10}　{attempts:>10}　{(range[1] - range[0] + 1):>6} ({range[0]} 〜 {range[1]})')
 
 
+        def initialize_game():
+            user_input = input('遊び方の説明を見ますか？[y/N]：')
+
+            if user_input.upper() == 'Y':
+                print('★遊び方：')
+                print('あなたが設定する２つの整数の間にあるかずから、')
+                print('コンピュータがランダムに１つを選びます。')
+                print('コンピュータが選んだ数を当てられたら、あなたの勝ちです。')
+                print('')
+                print('★例：')
+                print('あなたが設定した数：2, 10')
+                print('コンピュータが選べる範囲：2, 3, 4, 5, 6, 7, 8, 9, 10')
+                print('コンピュータが選んだ数：7')
+                print('正解となる入力：7')
+                print('不正解となる入力：7以外の数')
+                print('')
+
+            print('それでは、始めましょう！\n')
+           
+
         def get_score(range, attempts):
             if attempts == 0:
                 raise ValueError('試行数は１以上の整数としてください。\n')
@@ -90,74 +110,77 @@ if __name__ == '__main__':
 
 
         def set_range():
-            user_input = input('整数を２つ入力してください（例：2, 10）：')
+            while True:
+                user_input = input('整数を２つ入力してください（例：2, 10）：')
 
-            try:
-                range_values = list(map(int, user_input.split(',')))
-                range_values.sort()
-            except ValueError:
-                print('入力が間違っています。整数を２つ入力してください。\n')
-                set_range()
-                return
+                try:
+                    range_values = list(map(int, user_input.split(',')))
+                    range_values.sort()
+                except ValueError:
+                    print('入力が間違っています。整数を２つ入力してください。\n')
+                    set_range()
+                    continue
 
-            small, large = range_values
-            if len(range_values) == 2:
-                print('あなたが設定した範囲は ' + str(range_values[0]) + ' 〜 ' + str(range_values[1]) + ' です。\n')
-                target = random.randint(range_values[0], range_values[1])
-                print('コンピュータが選んだ数は ' + str(target) + ' です。')
+                small, large = range_values
+                if len(range_values) == 2:
+                    print('あなたが設定した範囲は ' + str(range_values[0]) + ' 〜 ' + str(range_values[1]) + ' です。\n')
+                    target = random.randint(range_values[0], range_values[1])
+                    print('コンピュータが選んだ数は ' + str(target) + ' です。')
 
-                attempts = 0
-                def ask_guess():
-                    nonlocal attempts
-                    while True:
-                        user_input = input('コンピュータが選んだ数は何でしょう？：')
+                    attempts = 0
+                    def ask_guess():
+                        nonlocal attempts
+                        while True:
+                            user_input = input('コンピュータが選んだ数は何でしょう？：')
 
-                        try:
-                            guess = int(user_input.strip())
-                        except ValueError:
-                            print('入力が間違っています。整数を入力してください。\n')
-                            continue
-                        
-                        if guess < small:
-                            print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より小さい数です。入力しなおしてください。\n')
-
-                        elif guess > large:
-                            print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より大きい数です。入力しなおしてください。\n')
-
-                        elif guess < target:
-                            attempts += 1
-                            print('残念！もっと　▲大きい数▲　です。\n')
-                        
-                        elif guess > target:
-                            attempts += 1
-                            print('残念！もっと　▼小さい数▼　です。\n')
-
-                        elif guess == target:
-                            attempts += 1
-                            print('正解です！おめでとう！＼(^o^)／\n')
-                            print('正解までの試行数は ' + str(attempts) + ' 回でした。\n')
-                            current_score = get_score(range_values, attempts)
-
-                            print('今回のスコアは ' + str(current_score) + ' でした。')
-
-                            if chceck_top5(range_values, attempts, current_score):
-                                print('おめでとう！TOP5に入りました！')
-                                player_name = set_player_name()
-                                print(player_name)
-                                set_ranking(range_values, attempts, current_score, player_name)
+                            try:
+                                guess = int(user_input.strip())
+                            except ValueError:
+                                print('入力が間違っています。整数を入力してください。\n')
+                                continue
                             
-                            confirm_retry()
+                            if guess < small:
+                                print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より小さい数です。入力しなおしてください。\n')
+
+                            elif guess > large:
+                                print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より大きい数です。入力しなおしてください。\n')
+
+                            elif guess < target:
+                                attempts += 1
+                                print('残念！もっと　▲大きい数▲　です。\n')
+                            
+                            elif guess > target:
+                                attempts += 1
+                                print('残念！もっと　▼小さい数▼　です。\n')
+
+                            elif guess == target:
+                                attempts += 1
+                                print('正解です！おめでとう！＼(^o^)／\n')
+                                print('正解までの試行数は ' + str(attempts) + ' 回でした。\n')
+                                current_score = get_score(range_values, attempts)
+
+                                print('今回のスコアは ' + str(current_score) + ' でした。')
+
+                                if chceck_top5(range_values, attempts, current_score):
+                                    print('おめでとう！TOP5に入りました！')
+                                    player_name = set_player_name()
+                                    print(player_name)
+                                    set_ranking(range_values, attempts, current_score, player_name)
+                                
+                                confirm_retry()
 
 
-                ask_guess()
+                    ask_guess()
+                    break
 
-            else:
-                print('入力が間違っています。整数を２つ入力してください。\n')
-                set_range()
+                else:
+                    print('入力が間違っています。整数を２つ入力してください。\n')
+                    continue
 
         
         show_title()
         show_ranking()
+        initialize_game()
         set_range()
     
     except KeyboardInterrupt:
