@@ -1,23 +1,54 @@
 import sys
 import random
 import math
+import json
 
 debugmode = False
+top5 = [
+    [[100, 1000], 5, 10000, 'No Name 1'],
+    [[100, 1000], 10, 5000, 'No Name 2'],
+    [[2, 10], 2, 200, 'No Name 3'],
+    [[2, 10], 4, 100, 'No Name 4'],
+    [[3, 3], 1, 0, 'No Name 5'],
+]
 
 if __name__ == '__main__':
     try:
-        top5 = [
-            [[100, 1000], 5, 10000, 'No Name 1'],
-            [[100, 1000], 10, 5000, 'No Name 2'],
-            [[2, 10], 2, 200, 'No Name 3'],
-            [[2, 10], 4, 100, 'No Name 4'],
-            [[3, 3], 1, 0, 'No Name 5'],
-        ]
+        def load_top5():
+            try:
+                with open('top5.json', 'r') as file:
+                    global top5
+                    data = json.load(file)
+
+                    try:
+                        validate_load_data(data)
+                        top5 = data
+                    except :
+                        print('ランキングデータが破損しているため、初期データを使用します。')
+
+                print('ランキングデータの読込みが完了しました。')
+            
+            except FileNotFoundError:
+                print('ランキングデータが見つからないため、初期データを使用します。')
+
+
+        def save_top5():
+            with open('top5.json', 'w') as file:
+                json.dump(top5, file)
+                if debugmode:
+                    print('[DEBUG] Top5 data has been saved as file.')
+
 
         def show_title():
             print('----------------------------------------')
             print('| Guess The Number Game - 数当てゲーム |')
             print('----------------------------------------')
+
+
+        def validate_load_data(data):
+            data_sorted = sorted(data, key=lambda x: (-x[2], x[1]))
+            for idx, (range, attempts, score, user_name) in enumerate(data_sorted[:5]):
+                print(f'{(idx + 1):>4}　{score:>6}　{user_name:<10}　{attempts:>10}　{(range[1] - range[0] + 1):>6} ({range[0]} 〜 {range[1]})')
 
 
         def show_ranking():
@@ -30,6 +61,10 @@ if __name__ == '__main__':
 
 
         def initialize_game():
+            load_top5()
+            show_title()
+            show_ranking()
+
             user_input = input('遊び方の説明を見ますか？[y/N]：')
 
             if user_input.lower() == 'debugmode':
@@ -114,11 +149,12 @@ if __name__ == '__main__':
 
 
         def confirm_retry():
-            user_input = input('もう一度ゲームをやりますか？[Y/n]：')
+            user_input = input('\nもう一度ゲームをやりますか？[Y/n]：')
             if user_input == '' or user_input.upper() == 'Y':
                 set_range()
 
             else:
+                save_top5()
                 print('遊んでくれてありがとう(*\'ω\'*)また遊んでね！')
                 exit(0)
 
@@ -192,10 +228,9 @@ if __name__ == '__main__':
                     continue
 
         
-        show_title()
-        show_ranking()
         initialize_game()
         set_range()
     
     except KeyboardInterrupt:
+        save_top5()
         print('\nゲームを中断しました。また遊んでね！')
