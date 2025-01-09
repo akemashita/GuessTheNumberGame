@@ -4,11 +4,6 @@ import math
 
 if __name__ == '__main__':
     try:
-
-        print('----------------------------------------')
-        print('| Guess The Number Game - 数当てゲーム |')
-        print('----------------------------------------')
-
         top5 = [
             [[100, 1000], 5, 10000, 'No Name 1'],
             [[100, 1000], 10, 5000, 'No Name 2'],
@@ -17,6 +12,12 @@ if __name__ == '__main__':
             [[3, 3], 1, 0, 'No Name 5'],
         ]
 
+        def show_title():
+            print('----------------------------------------')
+            print('| Guess The Number Game - 数当てゲーム |')
+            print('----------------------------------------')
+
+
         def show_ranking():
             print('★ランキング')
             print('順位　スコア　名前　　　　　　試行数　要素数（設定した値の範囲）')
@@ -24,8 +25,6 @@ if __name__ == '__main__':
             top5_sorted = sorted(top5, key=lambda x: (-x[2], x[1]))
             for idx, (range, attempts, score, user_name) in enumerate(top5_sorted[:5]):
                 print(f'{(idx + 1):>4}　{score:>6}　{user_name:<10}　{attempts:>10}　{(range[1] - range[0] + 1):>6} ({range[0]} 〜 {range[1]})')
-
-        show_ranking()
 
 
         def get_score(range, attempts):
@@ -77,6 +76,17 @@ if __name__ == '__main__':
             print(top5)
 
             show_ranking()
+            confirm_retry()
+
+
+        def confirm_retry():
+            user_input = input('もう一度ゲームをやりますか？[Y/n]：')
+            if user_input == '' or user_input.upper() == 'Y':
+                set_range()
+
+            else:
+                print('遊んでくれてありがとう(*\'ω\'*)また遊んでね！')
+                exit(0)
 
 
         def set_range():
@@ -135,8 +145,9 @@ if __name__ == '__main__':
                                 player_name = set_player_name()
                                 print(player_name)
                                 set_ranking(range_values, attempts, current_score, player_name)
+                            
+                            confirm_retry()
 
-                            break
 
                 ask_guess()
 
@@ -144,6 +155,9 @@ if __name__ == '__main__':
                 print('入力が間違っています。整数を２つ入力してください。\n')
                 set_range()
 
+        
+        show_title()
+        show_ranking()
         set_range()
     
     except KeyboardInterrupt:
