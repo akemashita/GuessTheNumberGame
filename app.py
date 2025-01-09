@@ -33,7 +33,7 @@ if __name__ == '__main__':
                 raise ValueError('試行数は１以上の整数としてください。\n')
 
             number_of_elements = range[1] - range[0] + 1
-            ideal_attempts = math.ceil(math.log(number_of_elements))
+            ideal_attempts = math.ceil(math.log(number_of_elements, 2))
             ideal_attempts = 1 if ideal_attempts == 0 else ideal_attempts  # 要素数１の場合は、理想の試行数が０となるので１に変更する
             print(f'要素数：{number_of_elements}, 理想的な試行数：{ideal_attempts}')
 
