@@ -57,6 +57,10 @@ if __name__ == '__main__':
             return score > lowest_score
         
 
+        def set_player_name():
+            user_input = input('ランキングに載せる名前を入力してください。')
+            return user_input.strip() or 'No Name'
+
         def set_range():
             user_input = input('整数を２つ入力してください（例：2, 10）：')
 
@@ -110,6 +114,8 @@ if __name__ == '__main__':
 
                             if chceck_top5(range_values, attempts, current_score):
                                 print('おめでとう！TOP5に入りました！')
+                                player_name = set_player_name()
+                                print(player_name)
 
                             break
 
