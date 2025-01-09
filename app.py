@@ -27,6 +27,26 @@ if __name__ == '__main__':
                 print(f'{(idx + 1):>4}　{score:>6}　{user_name:<10}　{attempts:>10}　{(range[1] - range[0] + 1):>6} ({range[0]} 〜 {range[1]})')
 
 
+        def initialize_game():
+            user_input = input('遊び方の説明を見ますか？[y/N]：')
+
+            if user_input.upper() == 'Y':
+                print('★遊び方：')
+                print('あなたが設定する２つの整数の間にあるかずから、')
+                print('コンピュータがランダムに１つを選びます。')
+                print('コンピュータが選んだ数を当てられたら、あなたの勝ちです。')
+                print('')
+                print('★例：')
+                print('あなたが設定した数：2, 10')
+                print('コンピュータが選べる範囲：2, 3, 4, 5, 6, 7, 8, 9, 10')
+                print('コンピュータが選んだ数：7')
+                print('正解となる入力：7')
+                print('不正解となる入力：7以外の数')
+                print('')
+
+            print('それでは、始めましょう！\n')
+           
+
         def get_score(range, attempts):
             if attempts == 0:
                 raise ValueError('試行数は１以上の整数としてください。\n')
@@ -158,6 +178,7 @@ if __name__ == '__main__':
         
         show_title()
         show_ranking()
+        initialize_game()
         set_range()
     
     except KeyboardInterrupt:
