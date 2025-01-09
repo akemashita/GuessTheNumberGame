@@ -145,11 +145,22 @@ if __name__ == '__main__':
 
         def get_message(key, **kwargs):
             global current_language
-            current_language = 'ja'
             message_template = messages.get(key, {}).get(current_language, '')
             if not message_template:
                 return f'[Missing translation for "{key}"]'
             return message_template.format(**kwargs)
+
+
+        def select_language():
+            global current_language
+            print('Select your language:')
+            print('1. 日本語 (Japanese)')
+            print('2. English')
+            user_input = input('Enter your choice (1 or 2): ')
+            if user_input == '2':
+                current_language = 'en'
+            else:
+                current_language = 'ja'
 
 
         def save_top5():
@@ -184,6 +195,7 @@ if __name__ == '__main__':
 
 
         def initialize_game():
+            select_language()
             load_top5()
             show_title()
             show_ranking()
@@ -318,13 +330,13 @@ if __name__ == '__main__':
                                 print(get_message('invalid_input'))
                                 continue
                             
-                            if guess < small:
+                            if guess < small or guess > large:
                                 # print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より小さい数です。入力しなおしてください。\n')
                                 print(get_message('invalid_range_exceed', small = small, large = large))
 
-                            elif guess > large:
-                                # print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より大きい数です。入力しなおしてください。\n')
-                                print(get_message('invalid_range_exceed', small = small, large = large))
+                            # elif guess > large:
+                            #     # print('範囲（' + str(small) + ' 〜 ' + str(large) + '）より大きい数です。入力しなおしてください。\n')
+                            #     print(get_message('invalid_range_exceed', small = small, large = large))
 
                             elif guess < target:
                                 attempts += 1
