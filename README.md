@@ -121,21 +121,24 @@ Take on the challenge and aim for the top score! 🌟
 ## 補足情報 / Supplement
 
 ### スコア評価 / Score Evaluation
-ゲームのスコアシステムに興味がある方は、こちらをご覧ください。 / If you're curious about how the scoring system works, check out the details below.
+- ゲームのスコアシステムに興味がある方は、こちらをご覧ください。
+- If you're curious about how the scoring system works, check out the details below.
 
 #### 計算式 / Formula
-スコアは以下の式で算出されます / The score is calculated using the following formula:
+ - スコアは以下の式で算出されます: 
 `スコア = (理想的な試行数 / 実際の試行数) × 倍率`
+ - The score is calculated using the following formula:
 `Score = (Ideal attempts / Actual attempts) × Multiplier`
 
 #### 詳細 / Details
 - **理想的な試行数 / Ideal attempts**:
-   - `ceil(log2(要素数 / Number of elements))`
+   - `ceil(log2(要素数))`
    - この理想的な試行数は、範囲内の整数を二分探索で推測する際に必要な最小の試行回数です。具体的には、範囲に含まれる要素数に対して、理論的に最適な推測回数です。
+   - `ceil(log2(Number of elements))`
    - This ideal attempts is the minimum number of attempts required to guess the integers in the range in a binary search. Specifically, it is the theoretically optimal number of guesses for the number of elements in the range.
 - **要素数 / Number of elements**:
-   `設定範囲の終わりの数 - 設定範囲の初めの数 + 1`
-   `End of the range - Start of the range + 1`
+   - `設定範囲の終わりの数 - 設定範囲の初めの数 + 1`
+   - `End of the range - Start of the range + 1`
 
 #### 倍率 / Multiplier
 倍率は要素数に基づいて次のように決まります / The multiplier is determined based on the number of elements in the range:
